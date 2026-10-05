@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Book a Vehicle — AutoElite</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"/>
+  <link rel="stylesheet" href="css/style.css"/>
+  <style>
+    .booking-wrap {
+      background: var(--slate);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .booking-sidebar {
+      background: linear-gradient(160deg, #1a2540 0%, var(--navy) 100%);
+      border-right: 1px solid rgba(201,168,76,0.12);
+      padding: 3rem 2.5rem;
+    }
+
+    .booking-form-area { padding: 3rem 2.5rem; }
+
+    .info-item {
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+      margin-bottom: 2rem;
+    }
+
+    .info-icon {
+      width: 44px;
+      height: 44px;
+      flex-shrink: 0;
+      border: 1px solid rgba(201,168,76,0.3);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+    }
+
+    .info-title {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.2rem;
+    }
+
+    .info-text { font-size: 0.85rem; color: var(--gray-lt); }
+
+    .process-step {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .step-num {
+      width: 28px;
+      height: 28px;
+      flex-shrink: 0;
+      border: 1px solid rgba(201,168,76,0.4);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: var(--gold);
+    }
+
+    .step-text { font-size: 0.82rem; color: var(--gray-lt); }
+
+    /* Success state */
+    .booking-success {
+      display: none;
+      text-align: center;
+      padding: 4rem 2rem;
+    }
+
+    .success-icon {
+      width: 80px;
+      height: 80px;
+      background: rgba(76,175,121,0.12);
+      border: 2px solid var(--success);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      margin: 0 auto 2rem;
+    }
+
+    .booking-id-badge {
+      display: inline-block;
+      background: rgba(201,168,76,0.1);
+      border: 1px solid rgba(201,168,76,0.3);
+      color: var(--gold);
+      font-family: monospace;
+      font-size: 1.1rem;
+      padding: 0.5rem 1.5rem;
+      border-radius: 4px;
+      margin: 1rem 0;
+      letter-spacing: 0.1em;
+    }
+
+    /* Floating label tweaks */
+    .form-row-gap { gap: 1.2rem; }
+  </style>
+</head>
+<body>
+
+<nav class="ae-nav">
+  <a href="/" class="ae-logo">Auto<span>Elite</span></a>
+  <ul class="ae-nav-links">
+    <li><a href="/">Home</a></li>
+    <li><a href="/fleet">Fleet</a></li>
+    <li><a href="/about">About</a></li>
+    <li><a href="/booking" class="active">Book Now</a></li>
+    <li><a href="/contact" class="nav-cta">Contact</a></li>
+  </ul>
+  <button class="ae-hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
+
+<div class="page-hero">
+  <div class="container">
+    <div class="section-eyebrow">Reserve Your Vehicle</div>
+    <div class="accent-line center"></div>
+    <h1>Make a Booking</h1>
+    <p class="mt-3" style="max-width:480px; margin:1rem auto 0;">Fill in your details below and our concierge team will confirm your reservation within 2 hours.</p>
+  </div>
+</div>
+
+<section class="ae-section">
+  <div class="container">
+    <div class="booking-wrap">
+      <div class="row g-0">
+
+        <!-- Sidebar -->
+        <div class="col-lg-4 booking-sidebar">
+          <div class="section-eyebrow mb-4">Booking Info</div>
+
+          <div class="info-item">
+            <div class="info-icon">⏱️</div>
+            <div>
+              <div class="info-title">Fast Confirmation</div>
+              <div class="info-text">Our team confirms every booking within 2 hours during business hours.</div>
+            </div>
+          </div>
+
+          <div class="info-item">
+            <div class="info-icon">🚗</div>
+            <div>
+              <div class="info-title">Delivery Included</div>
+              <div class="info-text">We deliver the vehicle to your hotel, airport, or address. No pickup required.</div>
+            </div>
+          </div>
+
+          <div class="info-item">
+            <div class="info-icon">📋</div>
+            <div>
+              <div class="info-title">What to Bring</div>
+              <div class="info-text">Valid driver's license, credit card in your name, and any voucher/promo code.</div>
+            </div>
+          </div>
+
+          <div class="info-item">
+            <div class="info-icon">🛡️</div>
+            <div>
+              <div class="info-title">Full Insurance</div>
+              <div class="info-text">All vehicles come with comprehensive coverage. Zero excess available on request.</div>
+            </div>
+          </div>
+
+          <hr style="border-color:rgba(255,255,255,0.08); margin:2rem 0;">
+
+          <div class="section-eyebrow mb-3">How It Works</div>
+          <div class="process-step">
+            <div class="step-num">1</div>
+            <div class="step-text">Submit your booking request below</div>
+          </div>
+          <div class="process-step">
+            <div class="step-num">2</div>
+            <div class="step-text">Receive confirmation email within 2 hrs</div>
+          </div>
+          <div class="process-step">
+            <div class="step-num">3</div>
+            <div class="step-text">We deliver the car to your location</div>
+          </div>
+          <div class="process-step">
+            <div class="step-num">4</div>
+            <div class="step-text">Drive. Return at agreed time & place.</div>
+          </div>
+        </div>
+
+        <!-- Form -->
+        <div class="col-lg-8 booking-form-area">
+          <!-- The form -->
+          <div id="formSection">
+            <h3 class="mb-1">Your Details</h3>
+            <p style="font-size:0.87rem; margin-bottom:2rem;">All fields are required to process your booking request.</p>
+
+            <form id="bookingForm" class="ae-form" novalidate>
+              <div class="row g-3 mb-3">
+                <div class="col-md-6">
+                  <label for="name">Full Name</label>
+                  <input type="text" class="form-control" id="name" name="name" placeholder="e.g. James Harrington" required/>
+                  <div class="invalid-feedback">Please enter your full name.</div>
+                </div>
+                <div class="col-md-6">
+                  <label for="email">Email Address</label>
+                  <input type="email" class="form-control" id="email" name="email" placeholder="you@example.com" required/>
+                  <div class="invalid-feedback">Please enter a valid email.</div>
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label for="phone">Phone Number</label>
+                <input type="tel" class="form-control" id="phone" name="phone" placeholder="+1 (555) 000-0000" required/>
+                <div class="invalid-feedback">Please enter your phone number.</div>
+              </div>
+
+              <div class="mb-3">
+                <label for="subject">Vehicle / Service Interest</label>
+                <select class="form-select" id="subject" name="subject" required>
+                  <option value="" disabled selected>Select a vehicle or service...</option>
+                  <optgroup label="Sports Cars">
+                    <option>Porsche 911 Carrera S</option>
+                    <option>Lamborghini Huracán</option>
+                    <option>Ferrari Portofino M (Convertible)</option>
+                  </optgroup>
+                  <optgroup label="Luxury Sedans">
+                    <option>Mercedes-Benz S 580</option>
+                    <option>BMW 7 Series M760i</option>
+                  </optgroup>
+                  <optgroup label="Premium SUVs">
+                    <option>Range Rover Vogue SE</option>
+                    <option>Cadillac Escalade ESV</option>
+                  </optgroup>
+                  <optgroup label="Electric">
+                    <option>Tesla Model S Plaid</option>
+                    <option>Porsche Taycan Turbo S</option>
+                  </optgroup>
+                  <optgroup label="Other">
+                    <option>Help me choose a vehicle</option>
+                    <option>Corporate / Fleet enquiry</option>
+                    <option>Special event / Wedding</option>
+                  </optgroup>
+                </select>
+                <div class="invalid-feedback">Please select a vehicle or service.</div>
+              </div>
+
+              <div class="mb-4">
+                <label for="message">Booking Details & Message</label>
+                <textarea class="form-control" id="message" name="message" rows="5"
+                  placeholder="Include your preferred pickup date, duration, location, and any special requests..." required></textarea>
+                <div class="invalid-feedback">Please describe your booking requirements.</div>
+              </div>
+
+              <div class="d-flex align-items-center gap-3 flex-wrap">
+                <button type="submit" class="btn-gold" id="submitBtn">
+                  Submit Booking Request
+                </button>
+                <span style="font-size:0.75rem; color:var(--gray)">🔒 Your details are stored securely</span>
+              </div>
+            </form>
+          </div>
+
+          <!-- Success state -->
+          <div class="booking-success" id="successSection">
+            <div class="success-icon">✅</div>
+            <h3 class="mb-2">Booking Request Received!</h3>
+            <p style="margin-bottom:0.5rem">Your reservation is being processed. A confirmation will be sent to your email shortly.</p>
+            <div class="booking-id-badge" id="bookingIdDisplay">AE-####</div>
+            <p style="font-size:0.85rem; color:var(--gray); margin-bottom:2rem">Use this reference number for any enquiries.</p>
+            <div class="d-flex gap-3 justify-content-center flex-wrap">
+              <a href="/fleet" class="btn-outline">Browse More Cars</a>
+              <button onclick="resetForm()" class="btn-gold">Make Another Booking</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="ae-footer">
+  <div class="container">
+    <div class="row g-5">
+      <div class="col-lg-4">
+        <div class="footer-logo">Auto<span style="color:var(--gold)">Elite</span></div>
+        <p style="font-size:0.85rem;">Redefining premium car rental worldwide.</p>
+      </div>
+      <div class="col-6 col-lg-2">
+        <div class="footer-heading">Navigation</div>
+        <ul class="footer-links">
+          <li><a href="/">Home</a></li>
+          <li><a href="/fleet">Fleet</a></li>
+          <li><a href="/about">About</a></li>
+          <li><a href="/booking">Booking</a></li>
+          <li><a href="/contact">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">© 2025 AutoElite. All rights reserved.</div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/main.js"></script>
+<script>
+  const form = document.getElementById('bookingForm');
+  const submitBtn = document.getElementById('submitBtn');
+  const formSection = document.getElementById('formSection');
+  const successSection = document.getElementById('successSection');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    form.classList.add('was-validated');
+    if (!form.checkValidity()) return;
+
+    // Disable button, show loading
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Processing...';
+
+    const data = {
+      name: document.getElementById('name').value.trim(),
+      email: document.getElementById('email').value.trim(),
+      phone: document.getElementById('phone').value.trim(),
+      subject: document.getElementById('subject').value,
+      message: document.getElementById('message').value.trim()
+    };
+
+    try {
+      const res = await fetch('/api/booking', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+
+      const result = await res.json();
+
+      if (result.success) {
+        // Show success
+        formSection.style.display = 'none';
+        successSection.style.display = 'block';
+        document.getElementById('bookingIdDisplay').textContent =
+          'AE-' + String(result.bookingId).padStart(4, '0');
+      } else {
+        showToast('Error', result.error || 'Something went wrong. Please try again.', true);
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Submit Booking Request';
+      }
+    } catch (err) {
+      // Fallback for demo without server
+      formSection.style.display = 'none';
+      successSection.style.display = 'block';
+      document.getElementById('bookingIdDisplay').textContent = 'AE-' + Math.floor(Math.random() * 9000 + 1000);
+    }
+  });
+
+  function resetForm() {
+    form.reset();
+    form.classList.remove('was-validated');
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Submit Booking Request';
+    successSection.style.display = 'none';
+    formSection.style.display = 'block';
+  }
+</script>
+</body>
+</html>

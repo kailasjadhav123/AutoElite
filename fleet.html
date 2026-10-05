@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Our Fleet — AutoElite</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"/>
+  <link rel="stylesheet" href="css/style.css"/>
+  <style>
+    .filter-bar {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      margin-bottom: 3rem;
+    }
+
+    .filter-btn {
+      padding: 0.5rem 1.4rem;
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.12);
+      color: var(--gray-lt);
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      border-radius: 2px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .filter-btn:hover,
+    .filter-btn.active {
+      border-color: var(--gold);
+      color: var(--gold);
+      background: rgba(201,168,76,0.08);
+    }
+
+    .car-grid-card {
+      background: var(--slate);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 4px;
+      overflow: hidden;
+      transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .car-grid-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(201,168,76,0.3);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+    }
+
+    .car-thumb {
+      height: 190px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 4.5rem;
+      background: linear-gradient(135deg, var(--slate2) 0%, #1e2d48 100%);
+      position: relative;
+    }
+
+    .car-badge {
+      position: absolute;
+      top: 0.8rem;
+      right: 0.8rem;
+      background: var(--gold);
+      color: var(--navy);
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.25rem 0.6rem;
+      border-radius: 2px;
+    }
+
+    .car-info { padding: 1.4rem; flex: 1; }
+
+    .car-cat {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.2rem;
+    }
+
+    .car-nm {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.5rem;
+      color: var(--pearl);
+      margin-bottom: 0.8rem;
+    }
+
+    .car-specs {
+      display: flex;
+      gap: 1.2rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .spec-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.1rem;
+    }
+
+    .spec-val {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--pearl);
+    }
+
+    .spec-key {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--gray);
+    }
+
+    .car-footer {
+      padding: 1rem 1.4rem;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .car-rate {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--gold);
+    }
+
+    .car-rate small {
+      font-size: 0.72rem;
+      font-weight: 400;
+      color: var(--gray);
+    }
+  </style>
+</head>
+<body>
+
+<nav class="ae-nav">
+  <a href="/" class="ae-logo">Auto<span>Elite</span></a>
+  <ul class="ae-nav-links">
+    <li><a href="/">Home</a></li>
+    <li><a href="/fleet" class="active">Fleet</a></li>
+    <li><a href="/about">About</a></li>
+    <li><a href="/booking">Book Now</a></li>
+    <li><a href="/contact" class="nav-cta">Contact</a></li>
+  </ul>
+  <button class="ae-hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
+
+<!-- Page Hero -->
+<div class="page-hero">
+  <div class="container">
+    <div class="section-eyebrow">Our Collection</div>
+    <div class="accent-line center"></div>
+    <h1>The Fleet</h1>
+    <p class="mt-3" style="max-width:500px; margin:1rem auto 0;">Every vehicle chosen for its engineering, design, and driving character. Nothing ordinary.</p>
+  </div>
+</div>
+
+<section class="ae-section">
+  <div class="container">
+
+    <!-- Filter -->
+    <div class="filter-bar" id="filterBar">
+      <button class="filter-btn active" data-cat="all">All Vehicles</button>
+      <button class="filter-btn" data-cat="sports">Sports</button>
+      <button class="filter-btn" data-cat="sedan">Luxury Sedan</button>
+      <button class="filter-btn" data-cat="suv">Premium SUV</button>
+      <button class="filter-btn" data-cat="convertible">Convertible</button>
+      <button class="filter-btn" data-cat="electric">Electric</button>
+    </div>
+
+    <!-- Grid -->
+    <div class="row g-4" id="carGrid">
+
+      <!-- Sports -->
+      <div class="col-md-6 col-lg-4 fade-up car-item" data-cat="sports">
+        <div class="car-grid-card">
+          <div class="car-thumb">🏎️<div class="car-badge">Hot Pick</div></div>
+          <div class="car-info">
+            <div class="car-cat">Sports</div>
+            <div class="car-nm">Porsche 911 Carrera S</div>
+            <div class="car-specs">
+              <div class="spec-item"><span class="spec-val">450</span><span class="spec-key">HP</span></div>
+              <div class="spec-item"><span class="spec-val">3.5s</span><span class="spec-key">0–60 mph</span></div>
+              <div class="spec-item"><span class="spec-val">Auto</span><span class="spec-key">PDK</span></div>
+            </div>
+          </div>
+          <div class="car-footer">
+            <div class="car-rate">$420 <small>/ day</small></div>
+            <a href="/booking" class="btn-gold" style="padding:0.5rem 1.2rem;font-size:0.72rem">Book Now</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-4 fade-up car-item" data-cat="sports">
+        <div class="car-grid-card">
+          <div class="car-thumb">🚗</div>
+          <div class="car-info">
+            <div class="car-cat">Sports</div>
+            <div class="car-nm">Lamborghini Huracán</div>
+            <div class="car-specs">
+              <div class="spec-item"><span class="spec-val">610</span><span class="spec-key">HP</span></div>
+              <div class="spec-item"><span class="spec-val">2.9s</span><span class="spec-key">0–60 mph</span></div>
+              <div class="spec-item"><span class="spec-val">AWD</span><span class="spec-key">Drive</span></div>
+            </div>
+          </div>
+          <div class="car-footer">
+            <div class="car-rate">$1,200 <small>/ day</small></div>
+            <a href="/booking" class="btn-gold" style="padding:0.5rem 1.2rem;font-size:0.72rem">Book Now</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sedan -->
+      <div class="col-md-6 col-lg-4 fade-up car-item" data-cat="sedan">
+        <div class="car-grid-card">
+          <div class="car-thumb">🚘<div class="car-badge">Popular</div></div>
+          <div class="car-info">
+            <div class="car-cat">Luxury Sedan</div>
+            <div class="car-nm">Mercedes-Benz S 580</div>
+            <div class="car-specs">
+              <div class="spec-item"><span class="spec-val">496</span><span class="spec-key">HP</span></div>
+              <div class="spec-item"><span class="spec-val">4.4s</span><span class="spec-key">0–60 mph</span></div>
+              <div class="spec-item"><span class="spec-val">4MATIC</span><span class="spec-key">Drive</span></div>
+            </div>
+          </div>
+          <div class="car-footer">
+            <div class="car-rate">$280 <small>/ day</small></div>
+            <a href="/booking" class="btn-gold" style="padding:0.5rem 1.2rem;font-size:0.72rem">Book Now</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-4 fade-up car-item" data-cat="sedan">
+        <div class="car-grid-card">
+          <div class="car-thumb">🚙</div>
+          <div class="car-info">
+            <div class="car-cat">Luxury Sedan</div>
+            <div class="car-nm">BMW 7 Series M760i</div>
+            <div class="car-specs">
+              <div class="spec-item"><span class="spec-val">523</span><span class="spec-key">HP</span></div>
+              <div class="spec-item"><span class="spec-val">3.6s</span><span class="spec-key">0–60 mph</span></div>
+              <div class="spec-item"><span class="spec-val">xDrive</span><span class="spec-key">Drive</span></div>
+            </div>
+          </div>
+          <div class="car-footer">
+            <div class="car-rate">$260 <small>/ day</small></div>
+            <a href="/booking" class="btn-gold" style="padding:0.5rem 1.2rem;font-size:0.72rem">Book Now</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- SUV -->
+      <div class="col-md-6 col-lg-4 fade-up car-item" data-cat="suv">
+        <div class="car-grid-card">
+          <div class="car-thumb">🚐</div>
+          <div class="car-info">
+            <div class="car-cat">Premium SUV</div>
+            <div class="car-nm">Range Rover Vogue SE</div>
+            <div class="car-specs">
+              <div class="spec-item"><span class="spec-val">395</span><span class="spec-key">HP</span></div>
+              <div class="spec-item"><span class="spec-val">5.1s</span><span class="spec-key">0–60 mph</span></div>
+              <div class="spec-item"><span class="spec-val">AWD</span><span class="spec-key">Drive</span></div>
+            </div>
+          </div>
+          <div class="car-footer">
+            <div class="car-rate">$350 <small>/ day</small></div>
+            <a href="/booking" class="btn-gold" style="padding:0.5rem 1.2rem;font-size:0.72rem">Book Now</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-4 fade-up car-item" data-cat="suv">
+        <div class="car-grid-card">
+          <div class="car-thumb">🚗</div>
+          <div class="car-info">
+            <div class="car-cat">Premium SUV</div>
+            <div class="car-nm">Cadillac Escalade ESV</div>
+            <div class="car-specs">
+              <div class="spec-item"><span class="spec-val">420</span><span class="spec-key">HP</span></div>
+              <div class="spec-item"><span class="spec-val">5.5s</span><span class="spec-key">0–60 mph</span></div>
+              <div class="spec-item"><span class="spec-val">4WD</span><span class="spec-key">Drive</span></div>
+            </div>
+          </div>
+          <div class="car-footer">
+            <div class="car-rate">$320 <small>/ day</small></div>
+            <a href="/booking" class="btn-gold" style="padding:0.5rem 1.2rem;font-size:0.72rem">Book Now</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Convertible -->
+      <div class="col-md-6 col-lg-4 fade-up car-item" data-cat="convertible">
+        <div class="car-grid-card">
+          <div class="car-thumb">🏖️</div>
+          <div class="car-info">
+            <div class="car-cat">Convertible</div>
+            <div class="car-nm">Ferrari Portofino M</div>
+            <div class="car-specs">
+              <div class="spec-item"><span class="spec-val">612</span><span class="spec-key">HP</span></div>
+              <div class="spec-item"><span class="spec-val">3.45s</span><span class="spec-key">0–60 mph</span></div>
+              <div class="spec-item"><span class="spec-val">RWD</span><span class="spec-key">Drive</span></div>
+            </div>
+          </div>
+          <div class="car-footer">
+            <div class="car-rate">$1,500 <small>/ day</small></div>
+            <a href="/booking" class="btn-gold" style="padding:0.5rem 1.2rem;font-size:0.72rem">Book Now</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Electric -->
+      <div class="col-md-6 col-lg-4 fade-up car-item" data-cat="electric">
+        <div class="car-grid-card">
+          <div class="car-thumb">⚡<div class="car-badge">Eco</div></div>
+          <div class="car-info">
+            <div class="car-cat">Electric</div>
+            <div class="car-nm">Tesla Model S Plaid</div>
+            <div class="car-specs">
+              <div class="spec-item"><span class="spec-val">1,020</span><span class="spec-key">HP</span></div>
+              <div class="spec-item"><span class="spec-val">1.99s</span><span class="spec-key">0–60 mph</span></div>
+              <div class="spec-item"><span class="spec-val">390mi</span><span class="spec-key">Range</span></div>
+            </div>
+          </div>
+          <div class="car-footer">
+            <div class="car-rate">$380 <small>/ day</small></div>
+            <a href="/booking" class="btn-gold" style="padding:0.5rem 1.2rem;font-size:0.72rem">Book Now</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-4 fade-up car-item" data-cat="electric">
+        <div class="car-grid-card">
+          <div class="car-thumb">🔋</div>
+          <div class="car-info">
+            <div class="car-cat">Electric</div>
+            <div class="car-nm">Porsche Taycan Turbo S</div>
+            <div class="car-specs">
+              <div class="spec-item"><span class="spec-val">750</span><span class="spec-key">HP</span></div>
+              <div class="spec-item"><span class="spec-val">2.6s</span><span class="spec-key">0–60 mph</span></div>
+              <div class="spec-item"><span class="spec-val">282mi</span><span class="spec-key">Range</span></div>
+            </div>
+          </div>
+          <div class="car-footer">
+            <div class="car-rate">$440 <small>/ day</small></div>
+            <a href="/booking" class="btn-gold" style="padding:0.5rem 1.2rem;font-size:0.72rem">Book Now</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<footer class="ae-footer">
+  <div class="container">
+    <div class="row g-5">
+      <div class="col-lg-4">
+        <div class="footer-logo">Auto<span style="color:var(--gold)">Elite</span></div>
+        <p style="font-size:0.85rem;">Redefining premium car rental worldwide.</p>
+      </div>
+      <div class="col-6 col-lg-2">
+        <div class="footer-heading">Navigation</div>
+        <ul class="footer-links">
+          <li><a href="/">Home</a></li>
+          <li><a href="/fleet">Fleet</a></li>
+          <li><a href="/about">About</a></li>
+          <li><a href="/booking">Booking</a></li>
+          <li><a href="/contact">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">© 2025 AutoElite. All rights reserved.</div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/main.js"></script>
+<script>
+  // Fleet filter
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const cat = btn.dataset.cat;
+      document.querySelectorAll('.car-item').forEach(card => {
+        if (cat === 'all' || card.dataset.cat === cat) {
+          card.style.display = '';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
+  });
+</script>
+</body>
+</html>
